@@ -1,0 +1,173 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Kafka Client</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-style-type" content="text/css" />
+<style type="text/css">body {
+  padding: 1em 2em;
+  background: #f8f8f8 none;
+  color: #222222;
+}
+pre {
+  padding: 0.2em 0em;
+  background: #eeeef8 none;
+  border: 1px solid #ddddee;
+  font-size: 95%;
+}
+h1,h2,h3,dt {
+  color: #111111;
+}
+dd p {
+  margin: 0.4em 0em 1.0em 0em;
+  padding: 0em;
+  color: #333333;
+}
+dd p:first-line {
+  color: #111111;
+}
+strong.tag {
+  margin-left: 0.5em;
+  padding-top: 0.5em;
+  font-size: 90%;
+  color: #222222;
+}
+var {
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#KafkaClient">KafkaClient</a>
+    <ul>
+      <li><a href="#Usage">Usage:</a>
+        <ul>
+          <li><a href="#KafkaClient::Producer">KafkaClient::Producer</a></li>
+          <li><a href="#KafkaClient::Consumer">KafkaClient::Consumer</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#Setup">Setup</a></li>
+  <li><a href="#AUTHOR">AUTHOR</a></li>
+  <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
+  <li><a href="#POD-ERRORS">POD ERRORS</a></li>
+</ul>
+
+<h1 id="KafkaClient">KafkaClient</h1>
+
+<p>Perl Client for Apache Kafka using librdkafka XS bindings.</p>
+
+<p>Offers producer and consumer functionality without zookeeper support.</p>
+
+<p>Compatible with librdkafka 0.9.0.</p>
+
+<h2 id="Usage">Usage:</h2>
+
+<h3 id="KafkaClient::Producer">KafkaClient::Producer</h3>
+
+<pre><code>  use KafkaClient;
+
+  my $delivered = 0;
+  sub dr_callback {
+    my ($result, $message, $msg_id) = @_;
+    $delivered++;
+    if ($result != 0) {
+      # error occured
+    } else {
+      # success, message with id $msg_id was sent
+    }
+  }
+
+  my $kcp = KafkaClient::Producer-&gt;new(&quot;compression.codec&quot; =&gt; &quot;gzip&quot;, &quot;message.max.bytes&quot; =&gt; 10000000);
+  $kcp-&gt;add_broker($broker_address);
+  $kcp-&gt;set_dr_callback(\&amp;dr_callback);
+
+  my $sent = 0;
+  my $id = 0;
+  my $kct = $kcp-&gt;new_topic($topic);
+  # produce one message
+  my $rcode = $kct-&gt;produce($message, undef, $id++);
+  if ($rcode != 0) {
+    # error when sending, there will be no delivery for this message
+  }
+  else {
+    $sent++;
+  }
+  # poll until everything is delivered
+  while ($delivered &lt; $sent) {
+    $kcp-&gt;poll();
+  }</code></pre>
+
+<h3 id="KafkaClient::Consumer">KafkaClient::Consumer</h3>
+
+<pre><code>  use KafkaClient;
+
+  my $kcc = KafkaClient::Consumer-&gt;new(&quot;group.id&quot; =&gt; &quot;test&quot;);
+  $kcc-&gt;add_broker($broker_address);
+
+  sub consume_callback {
+    my ($rcode, $topic, $partition, $key, $message, $offset) = @_;
+    if ($rcode == 0) {
+      # got message
+    } else {
+      # got error
+    }
+  }
+
+  my $kct = $kcc-&gt;new_topic($topic);
+  my ($partition_cnt, @partitions) = $kct-&gt;get_partitions();
+  # loop through all partitions for this topic and consume
+  foreach my $partition (@partitions) {
+    # offset=-2 means start from beginning
+    $kct-&gt;consume($partition, -2, 2000, \&amp;consume_callback);
+  }
+  $kcc-&gt;poll();</code></pre>
+
+<h1 id="Setup">Setup</h1>
+
+<p>To use this module you need librdkafka source in</p>
+
+<p>../librdkafka-0.9.0-1/src</p>
+
+<p>(otherwise you have to change Makefile.PL).</p>
+
+<p>Then run</p>
+
+<pre><code>  perl Makefile.PL
+  make</code></pre>
+
+<h1 id="AUTHOR">AUTHOR</h1>
+
+<p>Hendrik Schumacher &lt;hendrik.schumacher@meetrics.de&gt;</p>
+
+<h1 id="COPYRIGHT">COPYRIGHT</h1>
+
+<p>Copyright (c) 2012 Hendrik Schumacher &lt;hendrik.schumacher@meetrics.de&gt;. All rights reserved. This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1 id="POD-ERRORS">POD ERRORS</h1>
+
+<p>Hey! <b>The above document had some coding errors, which are explained below:</b></p>
+
+<dl>
+
+<dt id="Around-line-34">Around line 34:</dt>
+<dd>
+
+<p>Unknown directive: =head</p>
+
+</dd>
+</dl>
+
+
+</body>
+
+</html>
+
+

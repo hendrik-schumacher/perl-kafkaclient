@@ -1,0 +1,5 @@
+libkafkaclient-perl (1.01-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Hendrik Schumacher <hendrik.schumacher@meetrics.de>  Fri, 3 Jun 2016 17:21:21 +0200

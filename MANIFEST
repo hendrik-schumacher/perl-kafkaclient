@@ -1,0 +1,10 @@
+MANIFEST
+doc/index.html
+Makefile.PL
+KafkaClient.pm
+KafkaClient.xs
+Changes
+t/00_compile.t
+t/01_new.t
+.gitignore
+xt/pod.t

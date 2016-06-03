@@ -1,0 +1,16 @@
+Source: libkafkaclient-perl
+Section: perl
+Priority: optional
+Maintainer: Hendrik Schumacher <hendrik.schumacher@meetrics.de>
+Build-Depends: debhelper (>= 9.20120312~),
+ perl
+Standards-Version: 3.9.6
+Homepage: https://metacpan.org/release/KafkaClient
+
+Package: libkafkaclient-perl
+Architecture: any
+Depends: ${misc:Depends}, ${perl:Depends}, ${shlibs:Depends}
+Description: (no short description found)
+ (no description was found)
+ .
+ This description was automagically extracted from the module by dh-make-perl.

@@ -1,0 +1,16 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Source: https://metacpan.org/release/KafkaClient
+Upstream-Contact: Hendrik Schumacher <hendrik.schumacher@meetrics.de>
+Upstream-Name: KafkaClient
+
+Files: *
+Copyright: Hendrik Schumacher <hendrik.schumacher@meetrics.de>
+License: Artistic
+
+License: Artistic
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the Artistic License, which comes with Perl.
+ .
+ On Debian systems, the complete text of the Artistic License can be
+ found in `/usr/share/common-licenses/Artistic'.
+
